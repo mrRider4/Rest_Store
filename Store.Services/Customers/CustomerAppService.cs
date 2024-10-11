@@ -74,4 +74,12 @@ public class CustomerAppService : CustomersService
 
         return await _repository.GetOrdersById(id);
     }
+
+    public async Task IsExistById(int id)
+    {
+        if (await _repository.IsExistById(id))
+        {
+            throw new Exception("Customer not found");
+        }
+    }
 }

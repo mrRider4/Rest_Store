@@ -9,4 +9,5 @@ public interface CustomersService
     Task PhoneNumberValidation(string PhoneNumber);
     Task<List<GetCustomerDto>> GetAll(string? search);
     Task<List<GetCustomerOrderDto>> GetOrdersById(int id);
+    Task IsExistById(int id);
 }

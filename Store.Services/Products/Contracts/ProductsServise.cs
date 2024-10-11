@@ -12,4 +12,5 @@ public interface ProductsServise
     Task ThrowExceptionIfNotExistById(int id);
     void ProductCountValidation(int count);
     void ProductPriceValidation(decimal price);
+    Task<string> CheckProductInventory(int id, int count);
 }

@@ -1,4 +1,5 @@
-﻿using Store.Services.OrderItems.Contracts;
+﻿using Store.Entities.OrderItem;
+using Store.Services.OrderItems.Contracts;
 
 namespace Store.Services.OrderItems;
 
@@ -14,4 +15,6 @@ public class OrderItemAppService:OrderItemsService
         _context = context;
         _repository = repository;
     }
+
+   
 }

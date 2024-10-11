@@ -1,4 +1,5 @@
-﻿using Store.Entities.Products;
+﻿using Store.Entities.OrderItem;
+using Store.Entities.Products;
 using Store.Services.Products.Contracts;
 using Store.Services.Products.Contracts.Dtos;
 
@@ -113,5 +114,20 @@ public class ProductAppService : ProductsServise
             throw new Exception(
                 "Product count is invalid to set !!!\n(min = 1)");
         }
+    }
+
+    public async Task<string> CheckProductInventory(int id, int count)
+    {
+        string result = "";
+        Product product = await _repository.GetById(id);
+        if (product.Count < count)
+        {
+            result += $"Product name : {product.Name}" +
+                      $"product Id : {id}\t" +
+                      $"Ordered count : {count}\t" +
+                      $"Available count : {product.Count}";
+        }
+
+        return result;
     }
 }

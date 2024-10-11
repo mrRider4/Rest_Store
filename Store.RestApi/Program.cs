@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Store.Applications.CreateOrder;
+using Store.Applications.CreateOrder.Contracts;
 using Store.Persistance.EF;
 using Store.Persistance.EF.Customers;
 using Store.Persistance.EF.Orderitems;
@@ -41,6 +43,7 @@ builder.Services.AddScoped<OrdersService, OrderAppService>();
 builder.Services.AddScoped<OrderItemRepository, EFOrderItemRepository>();
 builder.Services.AddScoped<OrderItemsService, OrderItemAppService>();
 
+builder.Services.AddScoped<CreateOrderHandler,CreateOrderCommandHandler>();
 
 var app = builder.Build();
 
