@@ -2,5 +2,5 @@
 
 public interface OrderRepository
 {
-    
+    Task<bool> IsExistByCustomerId(int customerId);
 }

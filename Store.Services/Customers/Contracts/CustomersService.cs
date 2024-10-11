@@ -8,4 +8,5 @@ public interface CustomersService
     void NameValidation(string name);
     Task PhoneNumberValidation(string PhoneNumber);
     Task<List<GetCustomerDto>> GetAll(string? search);
+    Task<List<GetCustomerOrderDto>> GetOrdersById(int id);
 }

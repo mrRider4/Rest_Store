@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Mvc;
 using Store.Services.Customers.Contracts;
 using Store.Services.Customers.Contracts.Dtos;
 
@@ -24,7 +25,12 @@ public class CustomersController : ControllerBase
     [HttpGet("all-by-filter")]
     public async Task<List<GetCustomerDto>> GetAll([FromQuery] string? search)
     {
-        var s = string.Join("\t","asd");
         return await _service.GetAll(search);
+    }
+
+    [HttpGet("orders-by-id/{id}")]
+    public async Task<List<GetCustomerOrderDto>> GetOrdersById([FromRoute] int id)
+    {
+        return await _service.GetOrdersById(id);
     }
 }
