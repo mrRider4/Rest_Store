@@ -74,7 +74,7 @@ public class ProductAppService : ProductsServise
         _repository.Delete(product);
         await _context.Save();
     }
-    
+
     public async Task ThrowExceptionIfNotExistById(int id)
     {
         if (!await _repository.IsExistById(id))
@@ -85,9 +85,10 @@ public class ProductAppService : ProductsServise
 
     public async Task ProductNameValidation(string name)
     {
-        if (string.IsNullOrEmpty(name))
+        if (string.IsNullOrEmpty(name) || name.Length > 100)
         {
-            throw new Exception("This product name is invalid...");
+            throw new Exception(
+                "This product name is invalid!!! (must have <1> to <100> characters...)");
         }
 
         if (await _repository.IsExistByName(name))

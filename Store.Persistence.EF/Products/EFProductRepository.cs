@@ -33,7 +33,7 @@ public class EFProductRepository : ProductRepository
             Count = _.Count,
             Price = _.Price
         });
-        if (name != null)
+        if (!string.IsNullOrEmpty(name))
         {
             query = query.Where(_ => _.Name.Contains(name));
         }
