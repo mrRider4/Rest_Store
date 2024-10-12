@@ -12,4 +12,5 @@ public interface ProductRepository
     Task<bool> IsExistById(int id);
     Task<Product> GetById(int id);
     void Delete(Product product);
+    Task<decimal> GetPriceById(int id);
 }

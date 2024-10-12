@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Store.Applications.CreateOrder;
 using Store.Applications.CreateOrder.Contracts;
+using Store.Applications.CreateOrderWithNewCustomer;
+using Store.Applications.CreateOrderWithNewCustomer.Contracts;
 using Store.Persistance.EF;
 using Store.Persistance.EF.Customers;
 using Store.Persistance.EF.Orderitems;
@@ -28,11 +30,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<EFDataContext>
 (option => option.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection"
-        )));
+    )));
 builder.Services.AddScoped<UnitOfWork, EFUnitOfWork>();
 
 builder.Services.AddScoped<ProductRepository, EFProductRepository>();
-builder.Services.AddScoped<ProductsServise, ProductAppService>();
+builder.Services.AddScoped<ProductsService, ProductAppService>();
 
 builder.Services.AddScoped<CustomerRepository, EFCustomerRepository>();
 builder.Services.AddScoped<CustomersService, CustomerAppService>();
@@ -43,7 +45,10 @@ builder.Services.AddScoped<OrdersService, OrderAppService>();
 builder.Services.AddScoped<OrderItemRepository, EFOrderItemRepository>();
 builder.Services.AddScoped<OrderItemsService, OrderItemAppService>();
 
-builder.Services.AddScoped<CreateOrderHandler,CreateOrderCommandHandler>();
+builder.Services.AddScoped<CreateOrderHandler, CreateOrderCommandHandler>();
+builder.Services
+    .AddScoped<CreateOrderWithNewCustomerHandler,
+        CreateOrderWithNewCustomerCommandHandler>();
 
 var app = builder.Build();
 

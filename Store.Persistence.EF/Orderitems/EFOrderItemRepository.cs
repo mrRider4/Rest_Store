@@ -17,4 +17,9 @@ public class EFOrderItemRepository:OrderItemRepository
     {
         return await _context.Set<OrderItem>().SingleAsync(_ => _.Id == id);
     }
+
+    public async Task Add(OrderItem orderItem)
+    {
+        await _context.AddAsync(orderItem);
+    }
 }

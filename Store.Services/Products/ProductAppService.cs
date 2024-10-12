@@ -1,12 +1,13 @@
 ﻿using Store.Entities.OrderItem;
 using Store.Entities.Products;
+using Store.Services.OrderItems.Contracts.Dtos;
 using Store.Services.Products.Contracts;
 using Store.Services.Products.Contracts.Dtos;
 
 
 namespace Store.Services.Products;
 
-public class ProductAppService : ProductsServise
+public class ProductAppService : ProductsService
 {
     private readonly UnitOfWork _context;
     private readonly ProductRepository _repository;
@@ -129,5 +130,24 @@ public class ProductAppService : ProductsServise
         }
 
         return result;
+    }
+
+    public async Task CheckProductListInventory(List<AddOrderItemDto> dtoList)
+    {
+        string inventoryResult = "";
+        foreach (var item in dtoList)
+        {
+            inventoryResult +=
+                await CheckProductInventory
+                    (item.ProductId, item.Count);
+        }
+
+        if (!string.IsNullOrEmpty(inventoryResult))
+        {
+            throw new Exception(
+                "There is problem with product count !!!\n" +
+                inventoryResult);
+        }
+
     }
 }

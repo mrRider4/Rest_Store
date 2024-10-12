@@ -4,5 +4,5 @@ namespace Store.Applications.CreateOrder.Contracts;
 
 public interface CreateOrderHandler
 {
-    Task Create(AddOrderDto dto);
+    Task<GetCreateOrderresultDto> Create(AddOrderDto dto);
 }

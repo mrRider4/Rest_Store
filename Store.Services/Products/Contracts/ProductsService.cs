@@ -1,8 +1,9 @@
-﻿using Store.Services.Products.Contracts.Dtos;
+﻿using Store.Services.OrderItems.Contracts.Dtos;
+using Store.Services.Products.Contracts.Dtos;
 
 namespace Store.Services.Products.Contracts;
 
-public interface ProductsServise
+public interface ProductsService
 {
     Task<int> Add(AddProductDto dto); 
     Task ProductNameValidation(string name);
@@ -13,4 +14,5 @@ public interface ProductsServise
     void ProductCountValidation(int count);
     void ProductPriceValidation(decimal price);
     Task<string> CheckProductInventory(int id, int count);
+    Task CheckProductListInventory(List<AddOrderItemDto> dtoList);
 }

@@ -1,64 +1,62 @@
-﻿using Store.Applications.CreateOrder.Contracts;
+﻿
+
 using Store.Applications.CreateOrder.Contracts.Dtos;
+using Store.Applications.CreateOrderWithNewCustomer.Contracts;
+using Store.Applications.CreateOrderWithNewCustomer.Contracts.Dtos;
 using Store.Services;
 using Store.Services.Customers.Contracts;
+using Store.Services.Customers.Contracts.Dtos;
 using Store.Services.OrderItems.Contracts;
 using Store.Services.Orders.Contracts;
 using Store.Services.Products.Contracts;
 
-namespace Store.Applications.CreateOrder;
+namespace Store.Applications.CreateOrderWithNewCustomer;
 
-public class CreateOrderCommandHandler : CreateOrderHandler
+public class CreateOrderWithNewCustomerCommandHandler:CreateOrderWithNewCustomerHandler
 {
     private readonly UnitOfWork _context;
     private readonly OrdersService _orderService;
     private readonly OrderItemsService _orderItemsService;
+    private readonly CustomersService _customersService;
     
     private readonly ProductsService _productService;
 
-    public CreateOrderCommandHandler(
+    public CreateOrderWithNewCustomerCommandHandler(
         UnitOfWork context,
         OrdersService orderService,
         OrderItemsService orderItemsService,
-        ProductsService productService)
+        ProductsService productService,
+        CustomersService customersService)
     {
         _context = context;
         _orderService = orderService;
         _orderItemsService = orderItemsService;
-       
         _productService = productService;
+        _customersService = customersService;
     }
 
 
-    public async Task<GetCreateOrderresultDto> Create(AddOrderDto dto)
+    public async Task<GetCreateOrderresultDto> Create(AddOrderWithNewCustomer dto)
     {
         
         try
         {
             await _context.Begin();
-            int orderId= await _orderService.Add(dto.CustomerId);
-            // await _customersService.IsExistById(dto.CustomerId);
+            AddCustomerDto addCustomerDto = new AddCustomerDto()
+            {
+                Name = dto.Customer.Name,
+                PhoneNumber = dto.Customer.PhoneNumber
+            };
+            int customerId = await _customersService.Add(addCustomerDto);
+            int orderId= await _orderService.Add(customerId);
             await _productService.CheckProductListInventory(dto.OrderItems);
-            // string inventoryResult = "";
-            // foreach (var item in dto.OrderItems)
-            // {
-            //     inventoryResult +=
-            //         await _productService.CheckProductInventory
-            //             (item.ProductId, item.Count);
-            // }
-            //
-            // if (!string.IsNullOrEmpty(inventoryResult))
-            // {
-            //     throw new Exception(
-            //         "There is problem with product count !!!\n" +
-            //         inventoryResult);
-            // }
-            //
-           var totalPrice=await _orderItemsService.AddAll(orderId,dto.OrderItems);
+            var totalPrice=await _orderItemsService.AddAll(orderId,dto.OrderItems);
+            
             await _context.Commit();
+            
             var result = new GetCreateOrderresultDto()
             {
-                CustomerId = dto.CustomerId,
+                CustomerId = customerId,
                 OrderId = orderId,
                 TotalPrice = totalPrice
             };

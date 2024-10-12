@@ -55,4 +55,10 @@ public class EFProductRepository : ProductRepository
     {
         _context.Set<Product>().Remove(product);
     }
+
+    public async Task<decimal> GetPriceById(int id)
+    {
+        var product= await _context.Set<Product>().SingleAsync(_ => _.Id == id);
+        return product.Price;
+    }
 }
